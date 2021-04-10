@@ -81,16 +81,16 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-          ~/Library/Caches/Homebrew/pygobject3--*
-          ~/Library/Caches/Homebrew/downloads/*--pygobject3-*
-          ~/Library/Caches/Homebrew/gtk+3--*
-          ~/Library/Caches/Homebrew/downloads/*--gtk+3-*
-          ~/Library/Caches/Homebrew/cairo--*
-          ~/Library/Caches/Homebrew/downloads/*--cairo-*
-          ~/Library/Caches/Homebrew/py3cairo--*
-          ~/Library/Caches/Homebrew/downloads/*--py3cairo-*
-          ~/Library/Caches/Homebrew/pkg-config--*
-          ~/Library/Caches/Homebrew/downloads/*--pkg-config-*
+            ~/Library/Caches/Homebrew/pygobject3--*
+            ~/Library/Caches/Homebrew/downloads/*--pygobject3-*
+            ~/Library/Caches/Homebrew/gtk+3--*
+            ~/Library/Caches/Homebrew/downloads/*--gtk+3-*
+            ~/Library/Caches/Homebrew/cairo--*
+            ~/Library/Caches/Homebrew/downloads/*--cairo-*
+            ~/Library/Caches/Homebrew/py3cairo--*
+            ~/Library/Caches/Homebrew/downloads/*--py3cairo-*
+            ~/Library/Caches/Homebrew/pkg-config--*
+            ~/Library/Caches/Homebrew/downloads/*--pkg-config-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
           restore-keys: brew-
       - name: Install Homebrew dependencies
