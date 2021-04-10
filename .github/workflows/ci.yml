@@ -75,14 +75,22 @@ jobs:
           cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/cairo.rb" > .github/brew-formulae
           cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/py3cairo.rb" > .github/brew-formulae
           cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/pkg-config.rb" > .github/brew-formulae
-          less .github/brew-formulae
+          cat .github/brew-formulae
       - name: Configure Homebrew cache
         if: matrix.os == 'macos-latest'
         uses: actions/cache@v2
         with:
           path: |
-            ~/Library/Caches/Homebrew
-            ~/Library/Caches/Homebrew/downloads
+          ~/Library/Caches/Homebrew/pygobject3--*
+          ~/Library/Caches/Homebrew/downloads/*--pygobject3-*
+          ~/Library/Caches/Homebrew/gtk+3--*
+          ~/Library/Caches/Homebrew/downloads/*--gtk+3-*
+          ~/Library/Caches/Homebrew/cairo--*
+          ~/Library/Caches/Homebrew/downloads/*--cairo-*
+          ~/Library/Caches/Homebrew/py3cairo--*
+          ~/Library/Caches/Homebrew/downloads/*--py3cairo-*
+          ~/Library/Caches/Homebrew/pkg-config--*
+          ~/Library/Caches/Homebrew/downloads/*--pkg-config-*
           key: brew-${{ hashFiles('.github/brew-formulae') }}
           restore-keys: brew-
       - name: Install Homebrew dependencies
