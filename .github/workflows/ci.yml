@@ -64,9 +64,31 @@ jobs:
       - name: Install platform-specific requirements (Ubuntu)
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get install libgirepository1.0-dev gcc libcairo2-dev pkg-config python3-dev gir1.2-gtk-3.0 python3-gi python3-gi-cairo
-      - name: Install platform-specific requirements (macOS) # Note: brew is very slow sometimes. TODO: speedup brew by using caching.
+
+      # Attempt to cache brew
+      - name: Update Homebrew
         if: matrix.os == 'macos-latest'
-        run: brew install pygobject3 gtk+3 cairo py3cairo pkg-config
+        run: |
+          brew update --preinstall
+          cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/pygobject3.rb" > .github/brew-formulae
+          cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/gtk+3.rb" > .github/brew-formulae
+          cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/cairo.rb" > .github/brew-formulae
+          cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/py3cairo.rb" > .github/brew-formulae
+          cat "$(brew --repository)/Library/Taps/homebrew/homebrew-core/Formula/pkg-config.rb" > .github/brew-formulae
+          less .github/brew-formulae
+      - name: Configure Homebrew cache
+        if: matrix.os == 'macos-latest'
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            ~/Library/Caches/Homebrew/downloads
+          key: brew-${{ hashFiles('.github/brew-formulae') }}
+          restore-keys: brew-
+      - name: Install Homebrew dependencies
+        if: matrix.os == 'macos-latest'
+        run: |
+          env HOMEBREW_NO_AUTO_UPDATE=1 brew install pygobject3 gtk+3 cairo py3cairo pkg-config
 
       - name: Install fonts (non-Windows)
         if: matrix.os != 'windows-latest'
